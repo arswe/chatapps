@@ -11,8 +11,8 @@
 /* css custom properties */
 :root {
   --primary: #0a1929;
-  --secondary: #001e3c;
-  --tertiary: #001e3c;
+  --secondary: #132f4c;
+  --tertiary: #173a5e;
   --dark: #0e0e12;
   --green: #52d794;
   --blue: #00b3bd;
@@ -38,6 +38,7 @@ html {
   font-family: var(--fontFamily);
   background: linear-gradient(to right, var(--primary) 0%, var(--secondary) 100%);
   font-size: 10px;
+  font-weight: 600;
 }
 
 body {
@@ -84,7 +85,7 @@ input[type='submit'] {
   width: 200px;
   background: linear-gradient(to right, var(--green), var(--blue));
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: transform 0.1s ease-in-out;
 }
 
@@ -723,7 +724,7 @@ input[type='submit']:active {
 }
 
 #users-table tbody .name span {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 #users-table tbody tr:nth-of-type(even) {
