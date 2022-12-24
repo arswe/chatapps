@@ -1,0 +1,3 @@
+npm i express dotenv ejs mongoose multer cookie-parser express-validator jsonwebtoken bcrypt http-errors moment colors morgan cors --save
+npm i nodemon --D
+npm i socket.io
