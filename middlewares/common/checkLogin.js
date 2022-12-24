@@ -20,22 +20,14 @@ const checkLogin = (req, res, next) => {
       if (res.locals.html) {
         res.redirect('/');
       } else {
-        res.status(500).json({
-          errors: {
-            common: {
-              msg: 'Authentication failure!',
-            },
-          },
-        });
+        res.status(500).json({ errors: { common: { msg: 'Authentication failure!' } } });
       }
     }
   } else {
     if (res.locals.html) {
       res.redirect('/');
     } else {
-      res.status(401).json({
-        error: 'Authetication failure!',
-      });
+      res.status(401).json({ error: 'Authetication failure!' });
     }
   }
 };
@@ -60,20 +52,10 @@ function requireRole(role) {
       if (res.locals.html) {
         next(createError(401, 'You are not authorized to access this page!'));
       } else {
-        res.status(401).json({
-          errors: {
-            common: {
-              msg: 'You are not authorized!',
-            },
-          },
-        });
+        res.status(401).json({ errors: { common: { msg: 'You are not authorized!' } } });
       }
     }
   };
 }
 
-module.exports = {
-  checkLogin,
-  redirectLoggedIn,
-  requireRole,
-};
+module.exports = { checkLogin, redirectLoggedIn, requireRole };

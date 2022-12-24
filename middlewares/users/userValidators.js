@@ -1,54 +1,75 @@
 // external imports
-const { check, validationResult } = require("express-validator");
-const createError = require("http-errors");
-const path = require("path");
-const { unlink } = require("fs");
+const { check, validationResult } = require('express-validator');
+const createError = require('http-errors');
+const path = require('path');
+const { unlink } = require('fs');
 
 // internal imports
-const User = require("../../models/People");
+const User = require('../../models/People');
 
 // add user
 const addUserValidators = [
-  check("name")
+  check('name')
     .isLength({ min: 1 })
-    .withMessage("Name is required")
-    .isAlpha("en-US", { ignore: " -" })
-    .withMessage("Name must not contain anything other than alphabet")
+    .withMessage('Name is required')
+    .isAlpha('en-US', { ignore: ' -' })
+    .withMessage('Name must not contain anything other than alphabet')
     .trim(),
-  check("email")
+  check('email')
     .isEmail()
-    .withMessage("Invalid email address")
+    .withMessage('Invalid email address')
     .trim()
     .custom(async (value) => {
       try {
         const user = await User.findOne({ email: value });
         if (user) {
-          throw createError("Email already is use!");
+          throw createError('Email already is use!');
         }
       } catch (err) {
         throw createError(err.message);
       }
     }),
-  check("mobile")
-    .isMobilePhone("bn-BD", {
+
+  check('mobile')
+    .isMobilePhone('bn-BD', {
       strictMode: true,
     })
-    .withMessage("Mobile number must be a valid Bangladeshi mobile number")
+    .withMessage('Mobile number must be a valid Bangladeshi mobile number')
     .custom(async (value) => {
       try {
         const user = await User.findOne({ mobile: value });
         if (user) {
-          throw createError("Mobile already is use!");
+          throw createError('Mobile already is use!');
         }
       } catch (err) {
         throw createError(err.message);
       }
     }),
-  check("password")
+
+  check('studentId')
+    .isLength({ min: 8 })
+    .withMessage('Student ID must be at least 8 characters long')
+    .custom(async (value) => {
+      try {
+        const user = await User.findOne({ studentId: value });
+        if (user) {
+          throw createError('Student ID already is use!');
+        }
+      } catch (err) {
+        throw createError(err.message);
+      }
+    }),
+  check('section').isLength({ min: 1 }).withMessage('section is required').trim(),
+  check('department')
+    .isLength({ min: 1 })
+    .withMessage('department is required')
+    .isAlpha('en-US', { ignore: ' -' })
+    .withMessage('department must not contain anything other than alphabet')
+    .trim(),
+
+  check('password')
     .isStrongPassword()
-    .withMessage(
-      "Password must be at least 8 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol"
-    ),
+    .withMessage('Password must be at least 8 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol'),
 ];
 
 const addUserValidationHandler = function (req, res, next) {
@@ -60,12 +81,9 @@ const addUserValidationHandler = function (req, res, next) {
     // remove uploaded files
     if (req.files.length > 0) {
       const { filename } = req.files[0];
-      unlink(
-        path.join(__dirname, `/../public/uploads/avatars/${filename}`),
-        (err) => {
-          if (err) console.log(err);
-        }
-      );
+      unlink(path.join(__dirname, `/../public/uploads/avatars/${filename}`), (err) => {
+        if (err) console.log(err);
+      });
     }
 
     // response the errors
@@ -75,7 +93,4 @@ const addUserValidationHandler = function (req, res, next) {
   }
 };
 
-module.exports = {
-  addUserValidators,
-  addUserValidationHandler,
-};
+module.exports = { addUserValidators, addUserValidationHandler };

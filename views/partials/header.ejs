@@ -34,20 +34,14 @@
     </div>
     <script>
       // toast
-      const logoutToast = Toastify({
-        text: 'You are being logged out...',
-        duration: 1000,
-      });
+      const logoutToast = Toastify({ text: 'You are being logged out...', duration: 1000 });
 
       function logout() {
-        fetch('/', {
-          method: 'DELETE',
-        });
+        fetch('/', { method: 'DELETE' });
         logoutToast.showToast();
         setTimeout(() => {
           window.location.replace('/');
         }, 1000);
       }
     </script>
-  </body>
-</html>
+

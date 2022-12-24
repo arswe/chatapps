@@ -13,16 +13,11 @@ function errorHandler(err, req, res, next) {
 
   if (res.locals.html) {
     // html response
-    res.render('error', {
-      title: 'Error page',
-    });
+    res.render('error', { title: 'Error page' });
   } else {
     // json response
     res.json(res.locals.error);
   }
 }
 
-module.exports = {
-  notFoundHandler,
-  errorHandler,
-};
+module.exports = { notFoundHandler, errorHandler };
